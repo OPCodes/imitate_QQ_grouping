@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 300px;
+            border: 1px solid #000;
+        }
+        #box div {
+            width: 300px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            text-indent: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+        #box .bg {
+            background: #55e1a7 url("img/ico1.gif") 5px 10px no-repeat;
+        }
+        #box .bg1 {
+            background: #f3e2e2 url("img/ico2.gif") 5px 10px no-repeat;
+        }
+
+        #box ul {
+            display: none;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box ul li {
+            height: 30px;
+            background: #ccc;
+        }
+    </style>
+    <script>
+        window.onload = function (){
+            var box = document.getElementById("box");
+            var allDivs = box.getElementsByTagName("div");
+            var allUls = box.getElementsByTagName("ul");
+            var allLis = box.getElementsByTagName("li");
+
+            var num = 0;
+            var num2 = 0;
+            // 循环所有div
+            for( var i = 0; i < allDivs.length; i++ ){
+                // 给所有div加自定义index属性
+                allDivs[i].index = i;
+                allDivs[i].onOff = true;
+                // 给所有div加点击处理
+                allDivs[i].onclick = function (){
+                    if( this.onOff ){
+                        // 判断自定义属性，当为真的时候，让上一次操作的div以及下边的Ul隐藏，同时修改onOff，使之对应div的状态
+                        allDivs[num].className = 'bg';
+                        allUls[num].style.display = "none";
+                        for( var i = 0; i < allLis.length; i++ ){
+                            allLis[i].style.background = "#ccc";
+                        }
+                        allDivs[num].onOff = true;
+
+                        // 给当前点击div设置class和下边ul的显示状态，并且修改onOff
+                        allDivs[this.index].className = 'bg1';
+                        allUls[this.index].style.display = "block";
+                        allDivs[this.index].onOff = false;
+
+                        // 将当前点击的div的属性赋值给num
+                        num = this.index;
+
+                    } else {
+                        // 当点击的div是打开状态时，使之关闭，也要修改onOff
+                        allDivs[this.index].className = 'bg';
+                        allUls[this.index].style.display = "none";
+                        allDivs[this.index].onOff = true;
+                    }
+                }
+            } 
+
+            for( var j = 0; j < allLis.length; j++ ){
+                allLis[j].index = j;
+                allLis[j].onOff = true;
+                allLis[j].onclick = function (){
+                    if( this.onOff ){
+                        allLis[num2].style.background = "#ccc";
+                        allLis[num2].onOff = true;
+
+                        allLis[this.index].style.background = "red";
+                        allLis[this.index].onOff = false;
+
+                        num2 = this.index;
+                    } else {
+                        allLis[this.index].style.background = "#ccc";
+                        allLis[this.index].onOff = true;
+                    }
+                }
+            }  
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="bg">我的好友</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+            <li>444</li>
+            <li>555</li>
+            <li>666</li>
+            <li>777</li>
+        </ul>
+        <div class="bg">企业好友</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+            <li>444</li>
+            <li>555</li>
+        </ul>
+        <div class="bg">黑名单</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+        </ul>
+    </div>
+</body>
+</html>
+    

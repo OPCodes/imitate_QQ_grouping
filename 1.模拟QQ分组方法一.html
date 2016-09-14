@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 300px;
+            border: 1px solid #000;
+        }
+        #box div {
+            width: 300px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            text-indent: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+        #box .bg {
+            background: #55e1a7 url("img/ico1.gif") 5px 10px no-repeat;
+        }
+        #box .bg1 {
+            background: #f3e2e2 url("img/ico2.gif") 5px 10px no-repeat;
+        }
+
+        #box ul {
+            display: none;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box ul li {
+            height: 30px;
+            background: #ccc;
+        }
+    </style>
+    <script>
+        /*
+            步骤：1.当点击div的时候，改变它的背景，同时让下边的Ul显示隐藏
+                  2.当再次点击div时，如果当前这个div是打开状态，就让它关闭；
+                  如果当前div闭合，就让它打开，并且闭合其他的div
+        
+        */
+        window.onload = function (){
+            
+            var box = document.getElementById("box");
+            var allDivs = box.getElementsByTagName("div");
+            var allUls = box.getElementsByTagName("ul");
+            var allLis = box.getElementsByTagName("li");
+
+            for( var i = 0; i < allDivs.length; i++ ){
+                // 自定义属性index
+                allDivs[i].index = i;
+                // 自定义开关onOff
+                allDivs[i].onOff = true;
+                // 点击div
+                allDivs[i].onclick = function (){
+                    if( this.onOff ){
+                    // 当当前被点击的div的开关是true时
+                        // 循环所有的div让他们的背景还原到最初的状态
+                        // 隐藏所有div对应的ul
+                        // 同时让他们的开关值改为true
+                        for( var i = 0; i < allDivs.length; i++ ){
+                            allDivs[i].className = 'bg';
+                            allUls[i].style.display = "none";
+                            allDivs[i].onOff = true;
+                        }
+                        // 在隐藏Ul的同时还原li的背景颜色
+                        for( var j = 0; j < allLis.length; j++ ){
+                            allLis[j].style.background = "#ccc";
+                        }
+                        // 改变当前点击的div的背景
+                        this.className = 'bg1';
+                        // 显示当前div对应的ul
+                        allUls[this.index].style.display = "block";
+                        // 把当前div的开关设为false
+                        this.onOff = false;
+                    }  else {
+                    // 当开关是false的时候，循环所有div，让所有的div的背景设为true
+                        for( var i = 0; i < allDivs.length; i++ ){
+                            allDivs[i].className = 'bg';
+                            allUls[i].style.display = "none";
+                            allDivs[i].onOff = true;
+                        }
+                    }
+                }
+            }
+
+            // 循环所有的li
+            for( var j = 0; j < allLis.length; j++ ){
+                allLis[j].index = j;
+                allLis[j].onOff = true;
+                allLis[j].onclick = function (){
+                    if( this.onOff ){
+                    // 当开关是true的时候，循环所有的li还原所有li的背景颜色，并且将开关改成true
+                        for( var j = 0; j < allLis.length; j++ ){
+                            allLis[j].style.background = "#ccc";
+                            allLis[j].onOff = true;
+                        }
+                        // 把当前li的背景设为red，对应的开关改成false
+                        this.style.background = "red";
+                        this.onOff = false;
+                    } else {
+                        // 当开关是true的时候，循环所有的li还原所有li的背景颜色，并且将开关改成true
+                        for( var j = 0; j < allLis.length; j++ ){
+                            allLis[j].style.background = "#ccc";
+                            allLis[j].onOff = true;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="bg">我的好友</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+            <li>444</li>
+            <li>555</li>
+            <li>666</li>
+            <li>777</li>
+        </ul>
+        <div class="bg">企业好友</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+            <li>444</li>
+            <li>555</li>
+        </ul>
+        <div class="bg">黑名单</div>
+        <ul>
+            <li>111</li>
+            <li>222</li>
+            <li>333</li>
+        </ul>
+    </div>
+</body>
+</html>
+    

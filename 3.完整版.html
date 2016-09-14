@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        #box {
+            width: 300px;
+            border: 1px solid #000;
+        }
+        #box div {
+            width: 300px;
+            line-height: 30px;
+            font-size: 20px;
+            text-indent: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+        #box .bg {
+            background: #55e1a7 url("img/ico1.gif") 5px 10px no-repeat;
+        }
+        #box .bg1 {
+            background: #f3e2e2 url("img/ico2.gif") 5px 10px no-repeat;
+        }
+
+        #box ul {
+            display:none;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box ul li {
+            height: 30px;
+            background: #aaa;
+        }
+
+        #box ul li.red {
+            background: red;
+        }
+
+        #box ul li.blue {
+            background: blue;
+        }
+    </style>
+    <script>
+        /*
+            思路：1.当点击div下的H2时，改变它的背景，同时让下边的Ul显示隐藏
+                  2.当再次点击H2时，如果当前这个div是打开状态，就让它关闭；
+                  如果当前div闭合，就让它打开，并且闭合其他的div
+        
+        */
+        window.onload = function (){
+
+            var box = document.getElementById("box");
+            var allDiv = box.getElementsByTagName("div");
+            var allUl = box.getElementsByTagName("ul");
+            var allLi = box.getElementsByTagName("li");
+            var prev = 0;     // 记录上一次点击的li的下标
+
+            // 循环执行函数
+            for( var i = 0; i < allUl.length; i++ ){
+                changeBgColor(allUl[i]);    
+                openAndClose(allDiv[i],i);
+            }
+
+            // 点击H2时，控制div下Ul打开闭合
+            function openAndClose(obj,n){
+
+                var oH = obj.getElementsByTagName("h2")[0];  // 获取当前obj下的H2
+                var oUl = obj.getElementsByTagName("ul")[0]; // 获取当前obj下的UL
+                oH.index = i;
+                oH.onclick = function (){                    // 给当前H2添加点击事件处理
+                    if( oUl.style.display === "block" ){     // 当ul显示时
+                        oUl.style.display = "none";          // 设为隐藏
+                        obj.className = "bg";
+                        for( var i = 0; i < allLi.length; i++ ){ // 循环清空所有li样式
+                            allLi[i].className = "";
+                        }
+                    } else {                                 // 当ul隐藏时
+                        oUl.style.display = "block";
+                        obj.className = "bg1";
+                    }
+                }
+            }
+
+            // 给所有li添加点击和鼠标移入移出事件
+            function changeBgColor(obj){
+               
+                for( var i = 0; i < allLi.length; i++ ){
+                    allLi[i].index = i;
+                    allLi[i].onclick = function (){     // 点击当前obj下的每一个li
+                        allLi[prev].className = "";
+                        this.className = "red";
+                        prev = this.index;
+                    }
+                    allLi[i].onmouseover = function (){  // 鼠标移入当前obj下的li
+                        if( !this.className ){           // 判断当前有没有class
+                            this.className = "blue";     // 没有就加blue
+                        }
+                    }
+                    allLi[i].onmouseout = function (){    // 鼠标移出
+                        if( this.className !== "red" ){   // 判断有没有red
+                            this.className = "";          // 没有就清空
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="bg">
+            <h2>我的好友</h2>
+            <ul>
+                <li>111</li>
+                <li>222</li>
+                <li>333</li>
+                <li>444</li>
+                <li>555</li>
+                <li>666</li>
+                <li>777</li>
+            </ul>
+        </div>
+        <div class="bg">
+            <h2>企业好友</h2>
+            <ul>
+                <li>111</li>
+                <li>222</li>
+                <li>333</li>
+                <li>444</li>
+                <li>555</li>
+            </ul>
+        </div>
+        <div class="bg">
+            <h2>黑名单</h2>
+            <ul>
+                <li>111</li>
+                <li>222</li>
+                <li>333</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+    
